@@ -59,7 +59,7 @@ module.exports = {
       port: Env.get('DB_PORT', DB.port),
       user: Env.get('DB_USER', DB.username),
       password: Env.get('DB_PASSWORD', DB.password),
-      database: Env.get('DB_DATABASE', DB.database)
+      database: Env.get('DB_DATABASE', DB.pathname.substr(1))
     },
     debug: Env.get('DB_DEBUG', false)
   },
