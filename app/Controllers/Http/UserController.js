@@ -13,17 +13,13 @@ class UserController {
 
   async index ({ request, response }) {
     const { name } = request.get()
-    let users = null
+    const query = User.query().orderBy('username')
     if (name) {
-      users = await User
-        .query()
+      query
         .where('username', 'like', name + '%')
         .orWhere('email', 'like', name + '%')
-        .fetch()
-    } else {
-      users = await User.all()
     }
-    return users   
+    return await query.fetch()
   }
 
   async store ({ request, response }) {

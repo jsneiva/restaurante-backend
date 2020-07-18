@@ -6,11 +6,11 @@ class MenuGroupController {
 
   async index ({ request, response, view }) {
     const { name } = request.get()
+    const query = MenuGroup.query().orderBy('name')
     if (name) {
-      return await MenuGroup.query().where('name', 'like', name + '%').fetch()
-    } else {
-      return await MenuGroup.all()
+      query.where('name', 'like', name + '%').fetch()
     }
+    return await query.fetch()
   }
 
   async store ({ request, response }) {

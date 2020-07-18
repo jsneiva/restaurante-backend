@@ -27,5 +27,11 @@ Route.resource('/users', 'UserController').apiOnly()
 Route.resource('/contacts', 'ContactController').apiOnly()
 Route.resource('/reservations', 'ReservationController').apiOnly()
 Route.resource('/menu/groups', 'MenuGroupController').apiOnly()
+
 Route.resource('/menu/products', 'MenuProductController').apiOnly()
+Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
+
+Route.get('/menu/products/images/:filename', 'MenuProductController.getImage')
+
+Route.get('/totals', 'AdminController.index')
 
