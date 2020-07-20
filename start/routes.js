@@ -30,8 +30,8 @@ Route.group(() => {
   Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
 
   Route.resource('/users', 'UserController')  
-  Route.resource('/contacts', 'ContactController').apiOnly().except(['index'])
-  Route.resource('/reservations', 'ReservationController').apiOnly().except(['index'])
+  Route.resource('/contacts', 'ContactController').apiOnly().except(['store'])
+  Route.resource('/reservations', 'ReservationController').apiOnly().except(['store'])
   Route.resource('/menu/groups', 'MenuGroupController').apiOnly().except(['index'])
   Route.resource('/menu/products', 'MenuProductController').apiOnly().except(['index'])
 
@@ -40,10 +40,12 @@ Route.group(() => {
 
 // rotas públicas
 
-Route.get('/contacts', 'ContactController.index')
-Route.get('/reservations', 'ReservationController.index')
+Route.post('/login', 'UserController.login')
+Route.post('/contacts', 'ContactController.store')
+Route.post('/reservations', 'ReservationController.store')
+
 Route.get('/menu/groups', 'MenuGroupController.index')
 Route.get('/menu/products', 'MenuProductController.index')
-
-Route.post('/login', 'UserController.login')
 Route.get('/menu/products/images/:filename', 'MenuProductController.getImage')
+
+
