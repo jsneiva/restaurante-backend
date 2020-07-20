@@ -13,7 +13,15 @@ const Reservation = use('App/Models/Reservation')
 class ReservationController {
 
   async index ({ request, response, view }) {
-    return await Reservation.all()
+    const { name, status } = request.get()
+    const query = Reservation.query().orderBy('date').orderBy('time')
+    if (name) {
+      query.where('name', 'like', name + '%').fetch()
+    }
+    if (status && '12'.includes(status) ) {
+      query.where('checked', status === '1' ? 1 : 0)
+    }
+    return await query.fetch()
   }
 
   async store ({ request, response }) {
@@ -34,6 +42,11 @@ class ReservationController {
   }
 
   async update ({ params, request, response }) {
+    const { checked } = request.only(['checked'])
+    const reservation = await Reservation.findOrFail(params.id)
+    reservation.checked = checked
+    await reservation.save()
+    return reservation
   }
 
   async destroy ({ params, request, response }) {

@@ -17,21 +17,33 @@
 const Route = use('Route')
 
 Route.get('/', () => {
-  return { greeting: 'Backend está em operação!' }
+  return { greeting: 'Restaurante - backend está em operação!' }
 })
 
+// rotas protegidas
+
+Route.group(() => {
+
+  Route.get('/users/profile', 'userController.profile')  
+  Route.get('/totals', 'AdminController.index')  
+
+  Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
+
+  Route.resource('/users', 'UserController')  
+  Route.resource('/contacts', 'ContactController').apiOnly().except(['index'])
+  Route.resource('/reservations', 'ReservationController').apiOnly().except(['index'])
+  Route.resource('/menu/groups', 'MenuGroupController').apiOnly().except(['index'])
+  Route.resource('/menu/products', 'MenuProductController').apiOnly().except(['index'])
+
+}).middleware(['auth'])  
+
+
+// rotas públicas
+
+Route.get('/contacts', 'ContactController.index')
+Route.get('/reservations', 'ReservationController.index')
+Route.get('/menu/groups', 'MenuGroupController.index')
+Route.get('/menu/products', 'MenuProductController.index')
+
 Route.post('/login', 'UserController.login')
-Route.get('/users/profile', 'userController.profile')
-
-Route.resource('/users', 'UserController').apiOnly()
-Route.resource('/contacts', 'ContactController').apiOnly()
-Route.resource('/reservations', 'ReservationController').apiOnly()
-Route.resource('/menu/groups', 'MenuGroupController').apiOnly()
-
-Route.resource('/menu/products', 'MenuProductController').apiOnly()
-Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
-
 Route.get('/menu/products/images/:filename', 'MenuProductController.getImage')
-
-Route.get('/totals', 'AdminController.index')
-

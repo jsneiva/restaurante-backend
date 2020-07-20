@@ -10,8 +10,15 @@ const Contact = use('App/Models/Contact')
 class ContactController {
 
   async index ({ request, response, view }) {
-    const list = await Contact.all()
-    return list
+    const { name, status } = request.get()
+    const query = Contact.query().orderBy('created_at')
+    if (name) {
+      query.where('name', 'like', name + '%').fetch()
+    }
+    if (status && '12'.includes(status) ) {
+      query.where('checked', status === '1' ? 1 : 0)
+    }
+    return await query.fetch()
   }
 
 
