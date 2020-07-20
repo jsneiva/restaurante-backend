@@ -24,7 +24,7 @@ Route.get('/', () => {
 
 Route.group(() => {
 
-  Route.get('/users/profile', 'userController.profile')  
+  Route.get('/users/profile', 'UserController.profile')  
   Route.get('/totals', 'AdminController.index')  
 
   Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
