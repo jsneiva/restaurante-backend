@@ -29,7 +29,7 @@ Route.group(() => {
 
   Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
 
-  Route.resource('/users', 'UserController')  
+  Route.resource('/users', 'UserController').apiOnly()  
   Route.resource('/contacts', 'ContactController').apiOnly().except(['store'])
   Route.resource('/reservations', 'ReservationController').apiOnly().except(['store'])
   Route.resource('/menu/groups', 'MenuGroupController').apiOnly().except(['index'])
