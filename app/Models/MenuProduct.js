@@ -9,11 +9,7 @@ const BASE_URL = Env.get('APP_URL')
 class MenuProduct extends Model {
 
   static get computed() {
-    return ['urlImage', 'promotion']
-  }
-
-  getUrlImage({ image }) {
-    return image ? BASE_URL + '/menu/products/images/' + image : ''
+    return ['promotion']
   }
 
   getPromotion({ is_promo, price_promo, end_promo }) {

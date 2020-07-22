@@ -46,6 +46,5 @@ Route.post('/reservations', 'ReservationController.store')
 
 Route.get('/menu/groups', 'MenuGroupController.index')
 Route.get('/menu/products', 'MenuProductController.index')
-Route.get('/menu/products/images/:filename', 'MenuProductController.getImage')
-
+Route.get('/menu/products/:id/images', 'MenuProductController.getImage')  
 

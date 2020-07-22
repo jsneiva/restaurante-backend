@@ -11,7 +11,8 @@
 const moment = require('moment')
 
 const MenuProduct = use('App/Models/MenuProduct')
-const Helpers = use('Helpers')
+const Drive = use('Drive')
+
 
 const fields = [
   'name',
@@ -78,23 +79,31 @@ class MenuProductController {
 
 
   async saveImage({ params, request, response }) {
-    const menuProduct = await MenuProduct.findOrFail(params.id)
-    const fileImage = request.file('image', {
-      types: ['image'],
-      size: '2mb'
+
+    request.multipart.file('image', {}, async file => {
+      const menuProduct = await MenuProduct.findOrFail(params.id)          
+      const config = {
+        ContentType: file.headers['content-type'],
+        ACL: 'public-read'
+      }
+      const fileName = Date.now().toString(32) + '-' + file.clientName.replace(' ', '-')
+      const urlImage = await Drive.disk('s3').put(fileName, file.stream, config)
+      menuProduct.image = urlImage
+      await menuProduct.save()
     })
-    const fileName = params.id + '.' + fileImage.subtype
-    await fileImage.move(Helpers.tmpPath('images/products'), {
-      name: fileName,
-      overwrite: true
-    })
-    menuProduct.image = fileName
-    menuProduct.save()
-    return response.ok()
+
+    await request.multipart.process()
+    return response.ok()    
   }
 
+  
   async getImage({ params, request, response }) {
-    response.download(Helpers.tmpPath('images/products/' + params.filename))
+    const menuProduct = await MenuProduct.findOrFail(params.id)
+    const fileName = menuProduct.image.replace(/.*\//, '')
+    response.implicitEnd = false
+    response.header('Content-type', 'image/*')
+    const stream = await Drive.disk('s3').getStream(fileName)    
+    stream.pipe(response.response)
   }
   
 }
