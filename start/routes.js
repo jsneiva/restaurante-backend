@@ -42,6 +42,7 @@ Route.group(() => {
 // rotas públicas
 
 Route.post('/login', 'UserController.login')
+Route.post('/register', 'UserController.store')
 Route.post('/contacts', 'ContactController.store')
 Route.post('/reservations', 'ReservationController.store')
 
