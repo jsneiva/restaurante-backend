@@ -35,7 +35,7 @@ class MenuProductController {
       query.where('name', 'like', name + '%').fetch()    
     }
     if (group_id) {
-      query.where({ group_id })
+      query.where({ group_id }).where({ active: 1 })
     }
     if (is_promo) {
       const today = moment().format('Y-MM-DD')
