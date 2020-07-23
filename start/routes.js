@@ -30,7 +30,7 @@ Route.group(() => {
 
   Route.post('/menu/products/:id/images', 'MenuProductController.saveImage')
 
-  Route.resource('/users', 'UserController').apiOnly().except(['store']) 
+  Route.resource('/users', 'UserController').apiOnly()
   Route.resource('/contacts', 'ContactController').apiOnly().except(['store'])
   Route.resource('/reservations', 'ReservationController').apiOnly().except(['store'])
   Route.resource('/menu/groups', 'MenuGroupController').apiOnly().except(['index'])
@@ -42,6 +42,7 @@ Route.group(() => {
 // rotas públicas
 
 Route.post('/login', 'UserController.login')
+Route.post('/register', 'UserController.store')
 Route.post('/contacts', 'ContactController.store')
 Route.post('/reservations', 'ReservationController.store')
 
