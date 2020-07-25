@@ -32,22 +32,16 @@ class MenuProductController {
     const { name, group_id, is_promo } = request.get()
     const query = MenuProduct.query().orderBy('name')
     if (name) {
-      query.where('name', 'like', name + '%').fetch()    
+      query.where('name', 'like', name + '%')
     }
     if (group_id) {
       query.where({ group_id }).where({ active: 1 })
     }
-    if (is_promo) {
+    if (is_promo && /true/i.test(is_promo) {
       const today = moment().format('Y-MM-DD')
-      if (/true/i.test(is_promo)) {
-        query
-          .where({ is_promo: 1 })
-          .where('end_promo', '>=', today)
-      } else {
-        query
-          .where({ is_promo: 0 })
-          .orWhere('end_promo', '<', today)
-      }
+      query
+        .where({ is_promo: 1 })
+        .where('end_promo', '>=', today)
     }
     return await query.fetch()
   }
