@@ -37,7 +37,7 @@ class MenuProductController {
     if (group_id) {
       query.where({ group_id }).where({ active: 1 })
     }
-    if (is_promo && /true/i.test(is_promo) {
+    if (is_promo && /true/i.test(is_promo)) {
       const today = moment().format('Y-MM-DD')
       query
         .where({ is_promo: 1 })
